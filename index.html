@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>flint3-packages</title>
+<style>
+body { font: 16px/1.5 system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; }
+code, pre { font-family: ui-monospace, monospace; font-size: 0.875rem; }
+pre { overflow-x: auto; padding: 0.75rem; border: 1px solid #8884; border-radius: 4px; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid #8884; padding: 0.25rem 0.5rem; text-align: left; vertical-align: top; }
+td code { word-break: break-all; }
+</style>
+</head>
+<body>
+<h1>flint3-packages</h1>
+<p>Signed apk package feeds for the GL.iNet GL-BE9300 (Flint 3) images built from
+<a href="https://github.com/Zakkaus/openwrt-flint3">Zakkaus/openwrt-flint3</a> and
+<a href="https://github.com/Zakkaus/immortalwrt-flint3">Zakkaus/immortalwrt-flint3</a>. Each feed
+holds the packages of one build, kernel modules included, signed with the key its images trust.</p>
+<p>The feeds match the released images <code>flint3-20261120-2</code> (OpenWrt) and
+<code>flint3-20261120</code> (ImmortalWrt), both booted on a GL-BE9300 on 2026-11-20. Kernel modules
+install only on an image with the same kernel package version.</p>
+<table>
+<tr><th>Directory</th><th>Images</th><th>Signing key, sha256 of the DER public key</th></tr>
+<tr><td><a href="openwrt/public-key.pem">openwrt/</a></td><td><code>openwrt-*</code> from openwrt-flint3</td><td><code>3e3c6b58f7671aad0de438b9dd864fb9986fac83e1fa350eadb0936c117849f1</code></td></tr>
+<tr><td><a href="immortalwrt/public-key.pem">immortalwrt/</a></td><td><code>immortalwrt-*</code> from immortalwrt-flint3</td><td><code>5532a06a1cf888980ba08ad118d12c0a1288b05b6544bf0d3890ddafa39c3635</code></td></tr>
+</table>
+<h2>Use</h2>
+<p>The images already list their feed in <code>/etc/apk/repositories.d/distfeeds.list</code> and
+trust its key, so <code>apk update</code>, <code>apk add</code> and the LuCI software page work
+without changes. The OpenWrt image lists these lines; the ImmortalWrt image lists the same lines
+with <code>immortalwrt</code> in place of <code>openwrt</code>:</p>
+<pre>https://zakkaus.github.io/flint3-packages/openwrt/targets/qualcommbe/ipq53xx/packages/packages.adb
+https://zakkaus.github.io/flint3-packages/openwrt/packages/aarch64_cortex-a53/base/packages.adb
+https://zakkaus.github.io/flint3-packages/openwrt/packages/aarch64_cortex-a53/luci/packages.adb
+https://zakkaus.github.io/flint3-packages/openwrt/packages/aarch64_cortex-a53/packages/packages.adb</pre>
+<p>The images also list the <code>routing</code>, <code>telephony</code> and <code>video</code>
+feeds, commented out: the builds select no package from them, so these feeds hold no index.</p>
+<h2>Kernel modules</h2>
+<p>A feed holds only the newest published build. Kernel module packages (<code>kmod-*</code>)
+install only on the image of that build, because they must match its kernel. Upgrade the router to
+the newest image of the same source before installing a kernel module.</p>
+<h2>This branch</h2>
+<p><code>gh-pages</code> is a published artifact, not a source branch. Each publish replaces one
+source's directory and force-pushes the branch as a single new commit, so old packages do not pile
+up and no history is kept.</p>
+</body>
+</html>
